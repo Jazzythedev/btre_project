@@ -1,14 +1,14 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 
 def register(request):
-    if register.method == 'POST':
-        
+    if request.method == 'POST':
         return
     else:
         return render( request, 'accounts/register.html')
 
 def login(request):
-    if login.method == 'POST':
+    if request.method == 'POST':
         
         return
     else:
