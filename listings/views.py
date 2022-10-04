@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Listing
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from listings.choices import price_choices, bedroom_choices, state_choices
 
 def index(request):
     listings = Listing.objects.order_by('-list_date').filter(is_published=True)
@@ -11,7 +12,10 @@ def index(request):
        
     
     context = {
-        'listings': paged_listings
+        'listings': paged_listings,
+        'price_choices': price_choices,
+        'bedroom_choices': bedroom_choices,
+        'state_choices': state_choices
         
     }
     
