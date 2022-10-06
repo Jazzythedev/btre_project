@@ -47,17 +47,19 @@ def login(request):
         
         if user is not None:
             auth.login(request, user)
-            messages.success( request, 'Success! You are now logged into your account!')
+            messages.success( request, 'You are now logged into your account!')
             return redirect('dashboard')
         else:
             messages.error(request, "An error has occured, either your username/password is incorrect or you do not have an account with us.")
-            return redirect('login')
-        
+            return redirect('login')  
     else:
         return render(request, 'accounts/login.html')
 
 def logout(request):
-    return redirect('index')
+    if request.method == 'POST':
+        auth.logout(request)
+        messages.success( request, 'You have been successfully logged out')
+        return redirect('index')
 
 def dashboard(request):
     return render( request, 'accounts/dashboard.html')
