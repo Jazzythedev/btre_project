@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from django.contrib import messages
+from django.contrib import messages, auth
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 
 def register(request):
     if request.method == 'POST':
@@ -39,8 +40,19 @@ def register(request):
                 
 def login(request):
     if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
         
-        return
+        user = auth.authenticate(username=username,password=password)
+        
+        if user is not None:
+            auth.login(request, user)
+            messages.success( request, 'Success! You are now logged into your account!')
+            return redirect('dashboard')
+        else:
+            messages.error(request, "An error has occured, either your username/password is incorrect or you do not have an account with us.")
+            return redirect('login')
+        
     else:
         return render(request, 'accounts/login.html')
 
